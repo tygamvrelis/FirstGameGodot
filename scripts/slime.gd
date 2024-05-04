@@ -1,6 +1,9 @@
-extends Node2D
+extends CharacterBody2D
 
-const SPEED = 40
+const SPEED = 60
+
+# Get the gravity from the project settings to be synced with RigidBody nodes.
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var direction = 1
 
@@ -16,4 +19,10 @@ func _process(delta):
 	if ray_cast_left.is_colliding():
 		direction = 1
 		animated_sprite_2d.flip_h = false
-	position.x += direction * SPEED * delta
+	velocity.x = direction * SPEED
+	
+	# Add the gravity.
+	if not is_on_floor():
+		velocity.y += gravity * delta
+
+	move_and_slide()

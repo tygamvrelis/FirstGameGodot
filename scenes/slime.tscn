@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dyct6a6ml8cjs"]
+[gd_scene load_steps=11 format=3 uid="uid://dyct6a6ml8cjs"]
 
 [ext_resource type="Script" path="res://scripts/slime.gd" id="1_ddapr"]
 [ext_resource type="Texture2D" uid="uid://d1e45mxdppodr" path="res://assets/sprites/slime_green.png" id="1_xoqlc"]
@@ -40,23 +40,28 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_g8ghj"]
-size = Vector2(8, 12)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uko4d"]
+radius = 6.0
+height = 12.0
 
-[node name="Slime" type="Node2D"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_et5pu"]
+radius = 4.0
+height = 10.0
+
+[node name="Slime" type="CharacterBody2D"]
 script = ExtResource("1_ddapr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_r5hc4")
 autoplay = "default"
-frame_progress = 0.560143
+frame_progress = 0.372558
 
 [node name="Killzone" parent="." instance=ExtResource("2_3g0ap")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
 position = Vector2(0, -6)
-shape = SubResource("RectangleShape2D_g8ghj")
+shape = SubResource("CapsuleShape2D_uko4d")
 
 [node name="RayCastRight" type="RayCast2D" parent="."]
 position = Vector2(0, -6)
@@ -65,3 +70,8 @@ target_position = Vector2(10, 0)
 [node name="RayCastLeft" type="RayCast2D" parent="."]
 position = Vector2(0, -6)
 target_position = Vector2(-9, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CapsuleShape2D_et5pu")
+debug_color = Color(0.906591, 0.158476, 0.637599, 0.42)
