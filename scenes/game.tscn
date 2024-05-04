@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cwa67ndutki4k"]
+[gd_scene load_steps=20 format=3 uid="uid://cwa67ndutki4k"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_0iusq"]
 [ext_resource type="PackedScene" uid="uid://bl0qjupfi3nv6" path="res://scenes/player.tscn" id="1_fwjk4"]
@@ -417,22 +417,7 @@ sources/0 = SubResource("TileSetAtlasSource_oighm")
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_n1cha"]
 
-[sub_resource type="Animation" id="Animation_ombnq"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(49, -99)]
-}
-
-[sub_resource type="Animation" id="Animation_pvltv"]
+[sub_resource type="Animation" id="Animation_bm3bk"]
 resource_name = "move"
 length = 2.0
 loop_mode = 2
@@ -446,7 +431,48 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(49, -99), Vector2(-176, -99)]
+"values": [Vector2(-176, -99), Vector2(48, -99)]
+}
+
+[sub_resource type="Animation" id="Animation_0af20"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-176, -99)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1js31"]
+_data = {
+"RESET": SubResource("Animation_0af20"),
+"move": SubResource("Animation_bm3bk")
+}
+
+[sub_resource type="Animation" id="Animation_ombnq"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_pvltv"]
+resource_name = "move"
+length = 3.5
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5, 2, 3, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1248, 46), Vector2(1248, 46), Vector2(1248, -186), Vector2(1248, -186), Vector2(1248, -442), Vector2(1248, -442)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_37xho"]
@@ -559,9 +585,18 @@ position = Vector2(-296, -155)
 [node name="Platforms" type="Node" parent="."]
 
 [node name="Platform" parent="Platforms" instance=ExtResource("2_u6dcp")]
-position = Vector2(49, -99)
+position = Vector2(-176, -99)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Platforms/Platform"]
+libraries = {
+"": SubResource("AnimationLibrary_1js31")
+}
+autoplay = "move"
+
+[node name="Platform2" parent="Platforms" instance=ExtResource("2_u6dcp")]
+position = Vector2(1248, 46)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Platforms/Platform2"]
 libraries = {
 "": SubResource("AnimationLibrary_37xho")
 }
