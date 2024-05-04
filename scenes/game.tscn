@@ -1,11 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://cwa67ndutki4k"]
+[gd_scene load_steps=16 format=3 uid="uid://cwa67ndutki4k"]
 
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_0iusq"]
 [ext_resource type="PackedScene" uid="uid://bl0qjupfi3nv6" path="res://scenes/player.tscn" id="1_fwjk4"]
 [ext_resource type="Texture2D" uid="uid://coy260rotbify" path="res://assets/sprites/world_tileset.png" id="2_6mj01"]
 [ext_resource type="PackedScene" uid="uid://blgrdxyi2b8y5" path="res://scenes/platform.tscn" id="2_u6dcp"]
 [ext_resource type="PackedScene" uid="uid://te4p4a3qohtt" path="res://scenes/coin.tscn" id="4_aoog8"]
 [ext_resource type="PackedScene" uid="uid://b2kteoojxmrh0" path="res://scenes/killzone.tscn" id="5_433sw"]
 [ext_resource type="PackedScene" uid="uid://dyct6a6ml8cjs" path="res://scenes/slime.tscn" id="6_b7oqm"]
+[ext_resource type="FontFile" uid="uid://bnbpeqyy3iahr" path="res://assets/fonts/PixelOperator8.ttf" id="7_6m8fj"]
+[ext_resource type="FontFile" uid="uid://halhp3ap5r12" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="9_jmj8o"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oighm"]
 texture = ExtResource("2_6mj01")
@@ -453,6 +456,25 @@ _data = {
 
 [node name="Game" type="Node2D"]
 
+[node name="GameManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_0iusq")
+
+[node name="ScoreLabel" type="Label" parent="GameManager"]
+offset_left = -312.0
+offset_top = -196.0
+offset_right = -248.0
+offset_bottom = -173.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("9_jmj8o")
+theme_override_font_sizes/font_size = 8
+text = "GOT X COINS"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_8ni8t")
 format = 2
@@ -538,3 +560,23 @@ autoplay = "move"
 
 [node name="Slime" parent="Enemies" instance=ExtResource("6_b7oqm")]
 position = Vector2(88, 40)
+
+[node name="Labels" type="Node" parent="."]
+
+[node name="Label" type="Label" parent="Labels"]
+offset_left = 52.0
+offset_top = 5.0
+offset_right = 147.0
+offset_bottom = 22.0
+theme_override_fonts/font = ExtResource("7_6m8fj")
+theme_override_font_sizes/font_size = 8
+text = "Arrows to move"
+
+[node name="Label2" type="Label" parent="Labels"]
+offset_left = 309.0
+offset_top = 38.0
+offset_right = 404.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("7_6m8fj")
+theme_override_font_sizes/font_size = 8
+text = "Space to jump"
