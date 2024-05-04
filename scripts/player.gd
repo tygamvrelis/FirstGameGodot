@@ -1,25 +1,48 @@
 extends CharacterBody2D
 
-const SPEED = 150.0
-const JUMP_VELOCITY = -250.0
+# Jump code from:
+# - https://youtu.be/IOe1aGY6hXA?si=ZMlx8O9W_kbj4tO1
+# - https://gist.github.com/sjvnnings/5f02d2f2fc417f3804e967daa73cccfd
+@export var jump_height : float = 35
+@export var jump_time_to_peak : float = 0.4
+@export var jump_time_to_descent : float = 0.35
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+@onready var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
+@onready var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
+@onready var fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
+
+@export var max_air_jumps : int  = 1
+var num_air_jumps : int = 0
+
+@export var running_speed = 150.0
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var jump_sound = $JumpSound
 @onready var run_sound = $RunSound
 
+func get_gravity() -> float:
+	return jump_gravity if velocity.y < 0.0 else fall_gravity
+
+func jump():
+	num_air_jumps = 0
+	velocity.y = jump_velocity
+	jump_sound.play() 
+
+func air_jump():
+	num_air_jumps += 1
+	velocity.y = jump_velocity
+	jump_sound.play() 
 
 func _physics_process(delta):
 	# Add the gravity.
-	if not is_on_floor():
-		velocity.y += gravity * delta
+	velocity.y += get_gravity() * delta
 
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-		jump_sound.play() 
+	if Input.is_action_just_pressed("jump"):
+		if is_on_floor():
+			jump()
+		elif num_air_jumps < max_air_jumps:
+			air_jump()
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -41,8 +64,8 @@ func _physics_process(delta):
 
 	# Movement.
 	if direction:
-		velocity.x = direction * SPEED
+		velocity.x = direction * running_speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, running_speed)
 
 	move_and_slide()
