@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://soe0ni4yaeel"]
+
+[ext_resource type="Texture2D" uid="uid://bxiehds4oiaba" path="res://assets/sprites/kenney_tilemap_packed.png" id="1_e074a"]
+[ext_resource type="PackedScene" uid="uid://b2kteoojxmrh0" path="res://scenes/killzone.tscn" id="2_qycid"]
+
+[node name="Spikes" type="Area2D"]
+position = Vector2(0, -9)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(6.25849e-07, 0)
+scale = Vector2(0.888889, 1)
+texture = ExtResource("1_e074a")
+region_enabled = true
+region_rect = Rect2(144, 54, 18, 18)
+
+[node name="Killzone" parent="." instance=ExtResource("2_qycid")]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Killzone"]
+position = Vector2(-4.47035e-07, 0)
+scale = Vector2(0.9375, 1)
+polygon = PackedVector2Array(-6, 9, -6, 6, -4, 3, -2, 6, 2, 6, 4, 3, 6, 6, 6, 9)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="."]
+position = Vector2(4.47035e-07, 0)
+scale = Vector2(0.9375, 1)
+polygon = PackedVector2Array(-6, 9, -6, 6, -4, 3, -2, 6, 2, 6, 4, 3, 6, 6, 6, 9)
